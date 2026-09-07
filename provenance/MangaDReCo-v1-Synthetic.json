@@ -37,7 +37,7 @@
       "wave_lines",
       "length"
     ],
-    "training_scope": "synthetic_only",
+    "training_scope": "synthetic_visual_only",
     "semantic_pretraining": {
       "characters": 55000012,
       "deduplicated_sequences": 2429288,
@@ -53,9 +53,10 @@
       "uses_small_rec_h120": true,
       "seed": 20260906
     },
-    "real_manga_finetuning": false,
-    "real_manga_threshold_selection": false,
-    "checkpoint_sha256": "fff2593f2ea25cb10bf8382256917140beb2f87458fd7218961c937f847b1f28"
+    "checkpoint_sha256": "fff2593f2ea25cb10bf8382256917140beb2f87458fd7218961c937f847b1f28",
+    "semantic_text_scope": "JESC plus private manga text initially transcribed by MangaOCR and repaired/filtered by Terra and Luna",
+    "real_manga_image_finetuning": false,
+    "real_manga_image_threshold_selection": false
   },
   "runtime": {
     "det_size": 224,
