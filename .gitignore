@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+*.pt
+*.pth
+*.pdparams
+*.tar
+*.tar.gz
+*.tar.zst
+dist/
+

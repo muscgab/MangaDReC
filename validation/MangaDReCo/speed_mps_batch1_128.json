@@ -1,0 +1,19 @@
+{
+  "schema": "mangadrec_package_speed_v1",
+  "release": "MangaDReCo v1",
+  "device": "mps",
+  "torch": "2.10.0",
+  "accelerator": "Apple MPS",
+  "samples": 128,
+  "seed": 20260907,
+  "batch_size": 1,
+  "warmup_batches": 12,
+  "load_seconds": 0.6464514170074835,
+  "timing_boundary": "preloaded RGB arrays through padding, H2D, model, D2H and UTF-8 decode",
+  "batch_mean_ms": 239.04844132107428,
+  "batch_p50_ms": 172.37687499437016,
+  "batch_p90_ms": 258.2689169794321,
+  "per_image_wall_ms": 239.05369824228728,
+  "images_per_second": 4.183160550758237,
+  "nonempty_predictions": 128
+}

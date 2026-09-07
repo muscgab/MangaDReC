@@ -1,0 +1,78 @@
+{
+  "schema": "manga_ocr_a10_high_batch_comparison_v1",
+  "date": "2026-09-08",
+  "accelerator": "NVIDIA A10 24GB",
+  "dataset": "5120 samples drawn with seed 20260908 from the fixed length-stratified Manga109s 8000-crop manifest",
+  "purpose": "speed only; no EM/CER computed in this run",
+  "protocol": {
+    "images": "decoded and resident in host memory before timing",
+    "warmup": "10 complete batches at the selected batch size before all 5120 measured images",
+    "excluded": "model loading and image-file I/O",
+    "included": "official preprocessing/tensor packing, H2D, model inference/generation, D2H and text decoding",
+    "selection": "probe increasing batches and stop after throughput plateaus or declines"
+  },
+  "results": [
+    {
+      "model": "MangaDReC",
+      "samples": 5120,
+      "batch_size": 128,
+      "warmup_batches": 10,
+      "batch_p50_ms": 599.8176662251353,
+      "batch_p90_ms": 619.0630160272121,
+      "per_image_wall_ms": 4.610911780764582,
+      "images_per_second": 216.87684508988372,
+      "probe_conclusion": "peak at 128; batch 512 runs; batch 1024 OOM"
+    },
+    {
+      "model": "BaberuOCR",
+      "samples": 5120,
+      "batch_size": 256,
+      "warmup_batches": 10,
+      "batch_p50_ms": 1400.1353196799755,
+      "batch_p90_ms": 1529.5542683452368,
+      "per_image_wall_ms": 5.483575270409347,
+      "images_per_second": 182.36277441038033,
+      "probe_conclusion": "peak at 256; batch 512 runs but is slower; batch 1024 OOM"
+    },
+    {
+      "model": "HayaiOCR v2.1",
+      "samples": 5120,
+      "batch_size": 512,
+      "warmup_batches": 10,
+      "batch_p50_ms": 3315.858831629157,
+      "batch_p90_ms": 3460.343739017844,
+      "per_image_wall_ms": 6.455190422639134,
+      "images_per_second": 154.91409773023565,
+      "probe_conclusion": "peak at 512; batch 1024 runs but is slower"
+    },
+    {
+      "model": "MangaOCR",
+      "samples": 5120,
+      "batch_size": 32,
+      "warmup_batches": 10,
+      "batch_p50_ms": 499.0870226174593,
+      "batch_p90_ms": 773.4135705977678,
+      "per_image_wall_ms": 17.122048924284172,
+      "images_per_second": 58.404225126450946,
+      "probe_conclusion": "peak at 32; batch 64 is slower, so larger batches were stopped"
+    },
+    {
+      "model": "PaddleOCR-VL-For-Manga 0.9B",
+      "samples": 5120,
+      "batch_size": 256,
+      "warmup_batches": 10,
+      "batch_p50_ms": 7233.680325560272,
+      "batch_p90_ms": 7308.073870837688,
+      "per_image_wall_ms": 28.29144202696625,
+      "images_per_second": 35.34637785683885,
+      "probe_conclusion": "peak at 256; batch 512 runs but is slower; vLLM backend"
+    }
+  ],
+  "source_files": {
+    "MangaDReC": "outputs/high_batch_benchmark_20260908/results/drec_cuda_a10_highbatch/bs128.json",
+    "BaberuOCR": "outputs/high_batch_benchmark_20260908/results/external_highbatch/baberu/final_bs256_5120.json",
+    "HayaiOCR v2.1": "outputs/high_batch_benchmark_20260908/results/external_highbatch/hayai/final_bs512_5120.json",
+    "MangaOCR": "outputs/high_batch_benchmark_20260908/results/external_highbatch/mangaocr/final_bs32_5120.json",
+    "PaddleOCR-VL-For-Manga 0.9B": "outputs/high_batch_benchmark_20260908/results/external_highbatch/paddleocr_vl/final_bs256_5120.json"
+  }
+}

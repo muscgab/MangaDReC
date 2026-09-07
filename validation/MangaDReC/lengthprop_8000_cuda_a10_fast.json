@@ -1,0 +1,93 @@
+{
+  "schema": "mangadrec_lengthprop_b1_v1",
+  "release": "MangaDReC v1",
+  "device": "cuda",
+  "accelerator": "NVIDIA A10",
+  "samples": 8000,
+  "protocol": "warmed B=1; resident RGB image; synchronized; file I/O excluded; input packing, H2D, DET, A, REC, optional NAR B, D2H and text decode included",
+  "normalization": "v2.1_translation_typography_eval_20260905",
+  "quality": {
+    "em": 0.8175,
+    "cer": 0.036903556323345445,
+    "exact_matches": 6540,
+    "edit_distance": 3717,
+    "reference_characters": 100722,
+    "edited_blocks": 0
+  },
+  "latency": {
+    "mean_ms": 36.954759038751945,
+    "median_ms": 36.28238011151552,
+    "p90_ms": 39.07468728721142,
+    "p95_ms": 40.423763915896416,
+    "p99_ms": 46.23977467417717,
+    "images_per_second": 26.834193244329697,
+    "linear_slope_ms_per_reference_character": 0.025547529968187748,
+    "pearson_reference_length_vs_latency": 0.09492346018554577
+  },
+  "by_normalized_reference_length_bucket": {
+    "01": {
+      "samples": 105,
+      "mean_ms": 36.73917644080662,
+      "median_ms": 35.94699315726757,
+      "p90_ms": 39.18321244418621,
+      "p95_ms": 41.49357043206692,
+      "p99_ms": 43.79906319081783
+    },
+    "02": {
+      "samples": 331,
+      "mean_ms": 36.82209767423728,
+      "median_ms": 36.097440868616104,
+      "p90_ms": 39.16145674884319,
+      "p95_ms": 40.10520130395889,
+      "p99_ms": 45.60197331011295
+    },
+    "03-04": {
+      "samples": 859,
+      "mean_ms": 36.80103962397478,
+      "median_ms": 36.10498644411564,
+      "p90_ms": 39.040882140398026,
+      "p95_ms": 40.29596783220768,
+      "p99_ms": 45.121124014258385
+    },
+    "05-08": {
+      "samples": 1863,
+      "mean_ms": 36.92279931635736,
+      "median_ms": 36.23921051621437,
+      "p90_ms": 39.046386256814,
+      "p95_ms": 40.5074805021286,
+      "p99_ms": 46.317458152770996
+    },
+    "09-16": {
+      "samples": 2685,
+      "mean_ms": 36.833336689202476,
+      "median_ms": 36.21850907802582,
+      "p90_ms": 38.979848846793175,
+      "p95_ms": 39.95078429579735,
+      "p99_ms": 44.909823685884476
+    },
+    "17-32": {
+      "samples": 1917,
+      "mean_ms": 37.110538687799895,
+      "median_ms": 36.49689070880413,
+      "p90_ms": 39.19672779738903,
+      "p95_ms": 40.718648582696915,
+      "p99_ms": 46.71752266585827
+    },
+    "33-64": {
+      "samples": 233,
+      "mean_ms": 37.99259376436344,
+      "median_ms": 36.921288818120956,
+      "p90_ms": 40.191251784563065,
+      "p95_ms": 45.145414769649506,
+      "p99_ms": 60.62430702149868
+    },
+    "65+": {
+      "samples": 7,
+      "mean_ms": 43.198609724640846,
+      "median_ms": 39.41788524389267,
+      "p90_ms": 53.40665206313133,
+      "p95_ms": 59.04938466846943,
+      "p99_ms": 59.04938466846943
+    }
+  }
+}

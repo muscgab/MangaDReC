@@ -1,0 +1,93 @@
+{
+  "schema": "mangadrec_lengthprop_b1_v1",
+  "release": "MangaDReCo v1",
+  "device": "cuda",
+  "accelerator": "NVIDIA A10",
+  "samples": 8000,
+  "protocol": "warmed B=1; resident RGB image; synchronized; file I/O excluded; input packing, H2D, DET, A, REC, optional NAR B, D2H and text decode included",
+  "normalization": "v2.1_translation_typography_eval_20260905",
+  "quality": {
+    "em": 0.83275,
+    "cer": 0.03479875300331606,
+    "exact_matches": 6662,
+    "edit_distance": 3505,
+    "reference_characters": 100722,
+    "edited_blocks": 286
+  },
+  "latency": {
+    "mean_ms": 42.27286557503976,
+    "median_ms": 41.76837205886841,
+    "p90_ms": 43.98667626082897,
+    "p95_ms": 45.78940197825432,
+    "p99_ms": 52.08420380949974,
+    "images_per_second": 23.483051473351857,
+    "linear_slope_ms_per_reference_character": 0.03059501229062671,
+    "pearson_reference_length_vs_latency": 0.11924817112403731
+  },
+  "by_normalized_reference_length_bucket": {
+    "01": {
+      "samples": 105,
+      "mean_ms": 42.19545157892363,
+      "median_ms": 41.572801768779755,
+      "p90_ms": 44.53100450336933,
+      "p95_ms": 45.78188806772232,
+      "p99_ms": 54.70278114080429
+    },
+    "02": {
+      "samples": 331,
+      "mean_ms": 42.039135150228745,
+      "median_ms": 41.6074525564909,
+      "p90_ms": 43.498922139406204,
+      "p95_ms": 44.55249570310116,
+      "p99_ms": 53.2176960259676
+    },
+    "03-04": {
+      "samples": 859,
+      "mean_ms": 42.205643923617075,
+      "median_ms": 41.74736328423023,
+      "p90_ms": 44.00859773159027,
+      "p95_ms": 45.792339369654655,
+      "p99_ms": 51.589472219347954
+    },
+    "05-08": {
+      "samples": 1863,
+      "mean_ms": 42.169529732698656,
+      "median_ms": 41.670484468340874,
+      "p90_ms": 43.918173760175705,
+      "p95_ms": 45.85208371281624,
+      "p99_ms": 52.06894502043724
+    },
+    "09-16": {
+      "samples": 2685,
+      "mean_ms": 42.191995363994685,
+      "median_ms": 41.74557887017727,
+      "p90_ms": 43.79643127322197,
+      "p95_ms": 45.44861614704132,
+      "p99_ms": 51.42008513212204
+    },
+    "17-32": {
+      "samples": 1917,
+      "mean_ms": 42.37269866486732,
+      "median_ms": 41.84809513390064,
+      "p90_ms": 44.143956154584885,
+      "p95_ms": 46.0068192332983,
+      "p99_ms": 51.359448581933975
+    },
+    "33-64": {
+      "samples": 233,
+      "mean_ms": 43.5243195058706,
+      "median_ms": 42.288949713110924,
+      "p90_ms": 46.32130451500416,
+      "p95_ms": 52.127160131931305,
+      "p99_ms": 63.97694535553455
+    },
+    "65+": {
+      "samples": 7,
+      "mean_ms": 52.26129852235317,
+      "median_ms": 53.89821715652943,
+      "p90_ms": 59.255387634038925,
+      "p95_ms": 67.11574085056782,
+      "p99_ms": 67.11574085056782
+    }
+  }
+}

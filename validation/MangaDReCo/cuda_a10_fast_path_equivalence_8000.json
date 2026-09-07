@@ -1,0 +1,15 @@
+{
+  "schema": "mangadrec_cuda_dead_expand_elimination_v1",
+  "device": "NVIDIA A10",
+  "torch": "2.10.0+cu128",
+  "samples": 8000,
+  "change": "skip adaptive expansion only when CUDA and expanded_as_primary=false",
+  "preserved": "native CUDA DB decode, supplement boxes/gate, robust reading order, perspective crop and REC",
+  "prediction_changes": 0,
+  "normalized_metric_changes": 0,
+  "p50_ms_before": 156.1803938820958,
+  "p50_ms_after": 41.76837205886841,
+  "p95_ms_after": 45.78940197825432,
+  "images_per_second_after": 23.483051473351857,
+  "speedup_p50": 3.7392023242365044
+}

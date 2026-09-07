@@ -1,0 +1,83 @@
+version: 4
+presets:
+  manga_nfkc_v1:
+    description: Restricted manga-symbol normalization layered on Unicode NFKC.
+    base: NFKC
+    wave_canonical: "〜"
+    wave_display_preserve: ["～", "〜", "〰", "∼"]
+    prolonged_halfwidth: "ｰ"
+    prolonged_canonical: "ー"
+    remove_variation_selectors: true
+  manga_semantic_visual_v2:
+    description: >-
+      Supplement-training labels. Source display glyphs remain unchanged, but
+      semantically interchangeable long-line forms share the prolonged mark,
+      visually short dash/minus forms share ASCII hyphen-minus, wave variants
+      (including ASCII tilde) share the Japanese wave dash, quote-glyph
+      variants share straight quote classes, and Unicode ellipsis glyphs expand
+      to one centered-dot CTC class per visible dot. ASCII periods stay
+      baseline periods and are never folded into a Unicode ellipsis.
+    base: NFC
+    validation_normalization: NFKC
+    remove_variation_selectors: false
+    fold_fullwidth_ascii: true
+    fold_halfwidth_katakana: true
+    fold_fullwidth_yen: true
+    character_aliases:
+      "～": "〜"
+      "~": "〜"
+      "ヘ": "へ"
+      "ベ": "べ"
+      "ペ": "ぺ"
+      "·": "・"
+      "◯": "○"
+      "〝": '"'
+      "〞": '"'
+      "〟": '"'
+      "“": '"'
+      "”": '"'
+      "‘": "'"
+      "’": "'"
+      "─": "ー"
+      "―": "ー"
+      "—": "ー"
+      "︱": "ー"
+      "﹘": "-"
+      "−": "-"
+      "‐": "-"
+      "‑": "-"
+      "‒": "-"
+      "–": "-"
+      "﹣": "-"
+      "︲": "-"
+      "ｰ": "ー"
+      "〰": "〜"
+      "∼": "〜"
+    compatibility_aliases:
+      "‥": "・・"
+      "″": "′′"
+      "‼": "!!"
+      "⁈": "?!"
+      "⁉": "!?"
+      "℃": "°C"
+      "Ⅰ": "I"
+      "Ⅱ": "II"
+      "Ⅲ": "III"
+      "Ⅳ": "IV"
+      "Ⅴ": "V"
+      "Ⅵ": "VI"
+      "Ⅶ": "VII"
+      "Ⅷ": "VIII"
+      "Ⅸ": "IX"
+      "Ⅹ": "X"
+      "㈱": "(株)"
+      "㎏": "kg"
+      "㎜": "mm"
+      "㎝": "cm"
+      "㎞": "km"
+      "㏄": "cc"
+      "…": "・・・"
+      "⋯": "・・・"
+    ellipsis_canonical: "・"
+    fold_ascii_period_runs: false
+    fold_fullwidth_period_runs: false

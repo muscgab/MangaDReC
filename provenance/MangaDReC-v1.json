@@ -1,0 +1,68 @@
+{
+  "release": "MangaDReC v1",
+  "date": "2026-09-07",
+  "status": "public",
+  "files": {
+    "det_checkpoint": "models/det/det.pth",
+    "det_config": "models/det/config.yml",
+    "rec_checkpoint": "models/rec/rec.pth",
+    "rec_config": "models/rec/config.yml",
+    "dictionary": "models/rec/character_dict_tcy12.txt"
+  },
+  "a_gpu_db": {
+    "threshold": 0.2,
+    "box_threshold": 0.45,
+    "supplement_box_threshold": 0.2,
+    "unclip_ratio": 1.4,
+    "min_size": 3.0,
+    "supplement_min_size": 0.0,
+    "max_components": 64,
+    "angle_radius_degrees": 44.0,
+    "angle_step_degrees": 4.0,
+    "angle_refine_radius_degrees": 3.0,
+    "angle_refine_step_degrees": 0.5,
+    "reading_order": "robust_v4_order_before_expansion",
+    "zero_det_policy": "recall-first",
+    "reuse_supplement_decode": true
+  },
+  "b": {
+    "enabled": false
+  },
+  "runtime": {
+    "det_size": 224,
+    "rec_height": 48,
+    "rec_buckets": [
+      320,
+      480,
+      640
+    ],
+    "max_components": 64,
+    "b_max_characters": 64,
+    "max_output_characters": 320,
+    "top_k": 16,
+    "supplement_minimum_confidence": 0.7,
+    "supplement_minimum_area_ratio": 0.075,
+    "supplement_maximum_distance": 50.0,
+    "rec_single_batch": true,
+    "rec_two_stage_approximation": false
+  },
+  "device_contract": {
+    "input": "decoded padded BGR tensor and source_sizes_hw on MPS/CUDA",
+    "output": "fixed-capacity token IDs/counts/masks on the same device",
+    "host_readback_inside_forward": "one scalar nearest REC bucket index"
+  },
+  "cuda_fast_path": {
+    "date": "2026-09-07",
+    "condition": "device=cuda and expanded_as_primary=false",
+    "change": "skip eager adaptive expansion diagnostics; retain native CUDA DB decode, supplements, robust reading order, crop and REC",
+    "validation": "8,000 A10 samples produced byte-identical decoded predictions for MangaDReC; EM/CER unchanged",
+    "mangadrec_a10_b1_p50_ms_before": 153.68179511278868,
+    "mangadrec_a10_b1_p50_ms_after": 36.28238011151552
+  },
+  "license": "Apache-2.0",
+  "training_text_provenance": {
+    "private_manga_collection": "initial OCR by MangaOCR; repaired and filtered by Terra and Luna",
+    "redistributed": false,
+    "public_release_contents": "model weights, inference code, evaluation code, and documentation only"
+  }
+}

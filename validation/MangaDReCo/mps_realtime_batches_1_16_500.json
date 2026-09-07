@@ -1,0 +1,194 @@
+{
+  "schema": "manga_ocr_realtime_crop_batch_mps_v1",
+  "date": "2026-09-08",
+  "accelerator": "Apple M1 Pro MPS",
+  "torch": "2.10.0",
+  "dataset": "500 samples drawn with seed 20260908 from the fixed length-stratified Manga109s 8000-crop manifest",
+  "batch_sizes": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "warmup_batches_per_size": 10,
+  "timing": "decoded resident images; preprocessing/packing, MPS transfer, inference/generation, synchronization and decode included; loading and file I/O excluded",
+  "results": {
+    "MangaDReC": [
+      {
+        "batch_size": 1,
+        "measured_images": 500,
+        "batch_mean_ms": 163.78107536188327,
+        "batch_p50_ms": 143.16839599632658,
+        "batch_p90_ms": 196.46154099609703,
+        "batch_p95_ms": 233.60625002533197,
+        "per_image_wall_ms": 163.78693733399268,
+        "images_per_second": 6.105493003760184,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 2,
+        "measured_images": 500,
+        "batch_mean_ms": 216.26875333837233,
+        "batch_p50_ms": 181.16689551970921,
+        "batch_p90_ms": 212.4833749840036,
+        "batch_p95_ms": 235.94333394430578,
+        "per_image_wall_ms": 108.13734341796953,
+        "images_per_second": 9.24749923007473,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 4,
+        "measured_images": 500,
+        "batch_mean_ms": 367.8995393333025,
+        "batch_p50_ms": 237.1542500331998,
+        "batch_p90_ms": 269.93599999696016,
+        "batch_p95_ms": 1530.0126670044847,
+        "per_image_wall_ms": 91.97624950006139,
+        "images_per_second": 10.872372002941178,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 8,
+        "measured_images": 500,
+        "batch_mean_ms": 791.6112083189618,
+        "batch_p50_ms": 395.78833302948624,
+        "batch_p90_ms": 2526.587708038278,
+        "batch_p95_ms": 2723.079833027441,
+        "per_image_wall_ms": 99.74412316794042,
+        "images_per_second": 10.025653324119032,
+        "nonempty_predictions": 499
+      },
+      {
+        "batch_size": 16,
+        "measured_images": 500,
+        "batch_mean_ms": 1558.2292838480498,
+        "batch_p50_ms": 534.7357499995269,
+        "batch_p90_ms": 3727.410457970109,
+        "batch_p95_ms": 3847.1938330330886,
+        "per_image_wall_ms": 99.7272077499656,
+        "images_per_second": 10.027353844170424,
+        "nonempty_predictions": 500
+      }
+    ],
+    "MangaDReCo": [
+      {
+        "batch_size": 1,
+        "measured_images": 500,
+        "batch_mean_ms": 187.8626104017021,
+        "batch_p50_ms": 161.0002084635198,
+        "batch_p90_ms": 218.65308296401054,
+        "batch_p95_ms": 259.3896249891259,
+        "per_image_wall_ms": 187.86830183200072,
+        "images_per_second": 5.3228777300294094,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 2,
+        "measured_images": 500,
+        "batch_mean_ms": 246.40732769551687,
+        "batch_p50_ms": 198.06852098554373,
+        "batch_p90_ms": 240.2980420156382,
+        "batch_p95_ms": 274.21949995914474,
+        "per_image_wall_ms": 123.20662083395291,
+        "images_per_second": 8.116446934679853,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 4,
+        "measured_images": 500,
+        "batch_mean_ms": 480.7947299228981,
+        "batch_p50_ms": 284.08524999395013,
+        "batch_p90_ms": 329.7580410144292,
+        "batch_p95_ms": 2715.365334006492,
+        "per_image_wall_ms": 120.20040591608267,
+        "images_per_second": 8.319439459282234,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 8,
+        "measured_images": 500,
+        "batch_mean_ms": 1089.5579298394584,
+        "batch_p50_ms": 440.9387910272926,
+        "batch_p90_ms": 3815.514916961547,
+        "batch_p95_ms": 4059.9374580197036,
+        "per_image_wall_ms": 137.28570333204698,
+        "images_per_second": 7.284079665464826,
+        "nonempty_predictions": 499
+      },
+      {
+        "batch_size": 16,
+        "measured_images": 500,
+        "batch_mean_ms": 3056.947829465571,
+        "batch_p50_ms": 1002.7092919917777,
+        "batch_p90_ms": 7311.940832994878,
+        "batch_p95_ms": 7622.784166014753,
+        "per_image_wall_ms": 195.6458127499791,
+        "images_per_second": 5.111277292082536,
+        "nonempty_predictions": 500
+      }
+    ],
+    "HayaiOCR v2.1": [
+      {
+        "batch_size": 1,
+        "measured_images": 500,
+        "batch_mean_ms": 125.76125368056819,
+        "batch_p50_ms": 115.10818797978573,
+        "batch_p90_ms": 188.76016599824652,
+        "batch_p95_ms": 214.91783403325826,
+        "per_image_wall_ms": 125.76544191595167,
+        "images_per_second": 7.951309873091325,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 2,
+        "measured_images": 500,
+        "batch_mean_ms": 198.31873299763538,
+        "batch_p50_ms": 191.51089596562088,
+        "batch_p90_ms": 268.3757920167409,
+        "batch_p95_ms": 296.8301670043729,
+        "per_image_wall_ms": 99.16145325009711,
+        "images_per_second": 10.084563781834456,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 4,
+        "measured_images": 500,
+        "batch_mean_ms": 310.0398443113081,
+        "batch_p50_ms": 302.7649159776047,
+        "batch_p90_ms": 386.89229101873934,
+        "batch_p95_ms": 406.1723750201054,
+        "per_image_wall_ms": 77.51137100008782,
+        "images_per_second": 12.901332889581672,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 8,
+        "measured_images": 500,
+        "batch_mean_ms": 526.1655304468208,
+        "batch_p50_ms": 518.2040839572437,
+        "batch_p90_ms": 610.9530000248924,
+        "batch_p95_ms": 626.4068339951336,
+        "per_image_wall_ms": 66.29743341600988,
+        "images_per_second": 15.083540168517509,
+        "nonempty_predictions": 500
+      },
+      {
+        "batch_size": 16,
+        "measured_images": 500,
+        "batch_mean_ms": 932.4089309666306,
+        "batch_p50_ms": 949.069124966627,
+        "batch_p90_ms": 1014.3235000432469,
+        "batch_p95_ms": 1037.2193749644794,
+        "per_image_wall_ms": 59.67453475005459,
+        "images_per_second": 16.75756676090525,
+        "nonempty_predictions": 500
+      }
+    ]
+  },
+  "source_files": {
+    "MangaDReC": "mangadrec_mps_500.json",
+    "MangaDReCo": "mangadreco_mps_500.json",
+    "HayaiOCR v2.1": "hayai_v21_mps_500.json"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "mangadrec_package_speed_v1",
+  "release": "MangaDReC v1",
+  "device": "cuda",
+  "torch": "2.10.0+cu128",
+  "accelerator": "NVIDIA A10",
+  "samples": 5120,
+  "seed": 20260908,
+  "batch_size": 128,
+  "warmup_batches": 10,
+  "load_seconds": 0.542180648073554,
+  "timing_boundary": "preloaded RGB arrays through padding, H2D, model, D2H and UTF-8 decode",
+  "batch_mean_ms": 590.1909231208265,
+  "batch_p50_ms": 599.8176662251353,
+  "batch_p90_ms": 619.0630160272121,
+  "per_image_wall_ms": 4.610911780764582,
+  "images_per_second": 216.87684508988372,
+  "nonempty_predictions": 5118
+}

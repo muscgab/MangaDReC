@@ -1,0 +1,170 @@
+{
+  "schema": "manga_ocr_realtime_crop_batch_a10_v1",
+  "date": "2026-09-08",
+  "accelerator": "NVIDIA A10 24GB",
+  "seed": 20260908,
+  "workload": "streaming manga pages -> text-region crops -> OCR in short batches",
+  "samples_per_run": 1000,
+  "batch_sizes": [
+    2,
+    4,
+    8,
+    16
+  ],
+  "warmup_batches": 10,
+  "timing": "decoded resident images; preprocessing/packing, H2D, inference/generation, D2H and decode included; loading and file I/O excluded",
+  "results": {
+    "MangaDReC": [
+      {
+        "batch_size": 2,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 35.576725378632545,
+        "batch_p90_ms": 39.34737294912338,
+        "per_image_wall_ms": 18.478578440845013,
+        "images_per_second": 54.116716997537104
+      },
+      {
+        "batch_size": 4,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 36.804940551519394,
+        "batch_p90_ms": 45.855047181248665,
+        "per_image_wall_ms": 9.736984718590975,
+        "images_per_second": 102.70119846143793
+      },
+      {
+        "batch_size": 8,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 53.364284336566925,
+        "batch_p90_ms": 62.85429559648037,
+        "per_image_wall_ms": 6.8197931461036205,
+        "images_per_second": 146.63201340224433
+      },
+      {
+        "batch_size": 16,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 85.88916808366776,
+        "batch_p90_ms": 91.26501716673374,
+        "per_image_wall_ms": 5.503078063949943,
+        "images_per_second": 181.71648455268874
+      }
+    ],
+    "MangaDReCo": [
+      {
+        "batch_size": 2,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 40.32381158322096,
+        "batch_p90_ms": 43.842826038599014,
+        "per_image_wall_ms": 20.884907197207212,
+        "images_per_second": 47.881467250844324
+      },
+      {
+        "batch_size": 4,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 42.81152505427599,
+        "batch_p90_ms": 49.97832141816616,
+        "per_image_wall_ms": 11.249129163101315,
+        "images_per_second": 88.8957701081553
+      },
+      {
+        "batch_size": 8,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 57.72215127944946,
+        "batch_p90_ms": 68.7454305589199,
+        "per_image_wall_ms": 7.401468750089407,
+        "images_per_second": 135.108318870889
+      },
+      {
+        "batch_size": 16,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 92.77458116412163,
+        "batch_p90_ms": 98.76793250441551,
+        "per_image_wall_ms": 5.954300737008452,
+        "images_per_second": 167.9458334686699
+      }
+    ],
+    "BaberuOCR": [
+      {
+        "batch_size": 2,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 103.27931586652994,
+        "batch_p90_ms": 179.26298640668392,
+        "per_image_wall_ms": 55.60803517512977,
+        "images_per_second": 17.983012650071867
+      },
+      {
+        "batch_size": 4,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 136.71404402703047,
+        "batch_p90_ms": 198.6694112420082,
+        "per_image_wall_ms": 35.02863155119121,
+        "images_per_second": 28.54807498085072
+      },
+      {
+        "batch_size": 8,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 173.9619579166174,
+        "batch_p90_ms": 224.56654347479343,
+        "per_image_wall_ms": 22.33287244848907,
+        "images_per_second": 44.777043450478985
+      },
+      {
+        "batch_size": 16,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 222.52701222896576,
+        "batch_p90_ms": 283.0846197903156,
+        "per_image_wall_ms": 14.239678535610437,
+        "images_per_second": 70.22630444214106
+      }
+    ],
+    "HayaiOCR v2.1": [
+      {
+        "batch_size": 2,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 110.93738675117493,
+        "batch_p90_ms": 190.9380741417408,
+        "per_image_wall_ms": 59.73121799714863,
+        "images_per_second": 16.74166430103161
+      },
+      {
+        "batch_size": 4,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 144.8509246110916,
+        "batch_p90_ms": 227.53061167895794,
+        "per_image_wall_ms": 37.87923655100167,
+        "images_per_second": 26.399687297117826
+      },
+      {
+        "batch_size": 8,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 191.90428219735622,
+        "batch_p90_ms": 262.4228186905384,
+        "per_image_wall_ms": 25.039535146206617,
+        "images_per_second": 39.93684364190346
+      },
+      {
+        "batch_size": 16,
+        "samples": 1000,
+        "warmup_batches": 10,
+        "batch_p50_ms": 259.83631052076817,
+        "batch_p90_ms": 320.259690284729,
+        "per_image_wall_ms": 16.570223899558187,
+        "images_per_second": 60.34921471559978
+      }
+    ]
+  }
+}
