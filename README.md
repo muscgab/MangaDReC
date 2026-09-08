@@ -1,18 +1,3 @@
----
-license: apache-2.0
-language:
-  - ja
-tags:
-  - ocr
-  - manga
-  - japanese
-  - pytorch
-  - mps
-  - cuda
-pipeline_tag: image-to-text
-library_name: pytorch
----
-
 # MangaDReC / MangaDReCo v1
 
 [中文](#中文) · [English](#english)
@@ -88,19 +73,28 @@ MangaOCR 使用 Manga109 派生训练数据，在此评测上存在训练/测试
 公开报告的 EM/CER 均以相同的 V2.1 函数对 GT 和预测进行对称归一化，除非表格
 明确标记为 raw；原始 OCR 输出保持可用。
 
+### 文本长度与延迟
+
+![A10 CUDA fast-path latency versus normalized text length](assets/latency_vs_text_length_cuda_a10_fast_8000.png)
+
+同一批8,000张、A10、预热后的 batch=1 实测；DReC/DReCo 使用发布包中的 CUDA
+fast path。为让三套 OCR 使用同一横轴，按归一化参考文本长度分桶。曲线为 P50，
+阴影延伸到 P90。DReC/DReCo 每增加一个字符约增加0.03ms；BaberuOCR 约增加
+5.64ms。
+
 ### NVIDIA A10：实时 text-crop batch
 
 batch 1 使用长度分层的8,000张；batch 2–16 使用其中固定的1,000张。每项预热10个
 完整 batch。图片已解码并常驻内存；计时包含输入 packing、H2D、推理、D2H和文字
 解码；模型加载与文件 I/O 位于计时范围外。P50 是整个 batch 的完成时间。
 
-| Batch | DReC P50 / 吞吐 | DReCo P50 / 吞吐 | BaberuOCR P50 / 吞吐 | HayaiOCR v2.1 P50 / 吞吐 |
+| Batch | DReC P50 | DReCo P50 | BaberuOCR P50 | HayaiOCR v2.1 P50 |
 |---:|---:|---:|---:|---:|
-| 1 | **36.28 ms / 26.83/s** | 41.77 ms / 23.48/s | 77.05 ms / 11.46/s | — |
-| 2 | **35.58 ms / 54.12/s** | 40.32 ms / 47.88/s | 103.28 ms / 17.98/s | 110.94 ms / 16.74/s |
-| 4 | **36.80 ms / 102.70/s** | 42.81 ms / 88.90/s | 136.71 ms / 28.55/s | 144.85 ms / 26.40/s |
-| 8 | **53.36 ms / 146.63/s** | 57.72 ms / 135.11/s | 173.96 ms / 44.78/s | 191.90 ms / 39.94/s |
-| 16 | **85.89 ms / 181.72/s** | 92.77 ms / 167.95/s | 222.53 ms / 70.23/s | 259.84 ms / 60.35/s |
+| 1 | **36.28 ms** | 41.77 ms | 77.05 ms | — |
+| 2 | **35.58 ms** | 40.32 ms | 103.28 ms | 110.94 ms |
+| 4 | **36.80 ms** | 42.81 ms | 136.71 ms | 144.85 ms |
+| 8 | **53.36 ms** | 57.72 ms | 173.96 ms | 191.90 ms |
+| 16 | **85.89 ms** | 92.77 ms | 222.53 ms | 259.84 ms |
 
 保留的 HayaiOCR A10 同口径序列从 batch 2 开始。
 
@@ -108,29 +102,28 @@ batch 1 使用长度分层的8,000张；batch 2–16 使用其中固定的1,000�
 
 同一批5,120张，每项预热10个完整 batch；逐步增大 batch，保留实测峰值。
 
-| 模型 | 峰值 batch | P50 | 单图均摊 | 峰值吞吐 |
-|---|---:|---:|---:|---:|
-| MangaDReC | 128 | **599.82 ms** | **4.611 ms** | **216.88/s** |
-| BaberuOCR | 256 | 1400.14 ms | 5.484 ms | 182.36/s |
-| HayaiOCR v2.1 | 512 | 3315.86 ms | 6.455 ms | 154.91/s |
-| MangaOCR | 32 | 499.09 ms | 17.122 ms | 58.40/s |
-| PaddleOCR-VL-For-Manga 0.9B | 256 | 7233.68 ms | 28.291 ms | 35.35/s |
+| 模型 | 峰值 batch | 峰值吞吐 |
+|---|---:|---:|
+| MangaDReC | 128 | **216.88/s** |
+| BaberuOCR | 256 | 182.36/s |
+| HayaiOCR v2.1 | 512 | 154.91/s |
+| MangaOCR | 32 | 58.40/s |
+| PaddleOCR-VL-For-Manga 0.9B | 256 | 35.35/s |
 
 ### Apple M1 Pro MPS：实时 text-crop batch
 
 同一批500张，每项预热10个完整 batch；计时边界与上表一致。HayaiOCR v2.1 使用
-官方 PyTorch FP32 贪心生成路径。P50 是整个 batch 延迟，吞吐按完整500张实测。
+官方 PyTorch FP32 贪心生成路径。P50 是整个 batch 延迟。
 
-| Batch | DReC P50 / 吞吐 | DReCo P50 / 吞吐 | HayaiOCR v2.1 P50 / 吞吐 |
+| Batch | DReC P50 | DReCo P50 | HayaiOCR v2.1 P50 |
 |---:|---:|---:|---:|
-| 1 | 143.17 ms / 6.11/s | 161.00 ms / 5.32/s | **115.11 ms / 7.95/s** |
-| 2 | **181.17 ms / 9.25/s** | 198.07 ms / 8.12/s | 191.51 ms / **10.08/s** |
-| 4 | **237.15 ms / 10.87/s** | 284.09 ms / 8.32/s | 302.76 ms / **12.90/s** |
-| 8 | **395.79 ms** / 10.03/s | 440.94 ms / 7.28/s | 518.20 ms / **15.08/s** |
-| 16 | **534.74 ms** / 10.03/s | 1002.71 ms / 5.11/s | 949.07 ms / **16.76/s** |
+| 1 | 143.17 ms | 161.00 ms | **115.11 ms** |
+| 2 | **181.17 ms** | 198.07 ms | 191.51 ms |
+| 4 | **237.15 ms** | 284.09 ms | 302.76 ms |
+| 8 | **395.79 ms** | 440.94 ms | 518.20 ms |
+| 16 | **534.74 ms** | 1002.71 ms | 949.07 ms |
 
-DReC/DReCo 从 batch 4 起出现明显 MPS 长尾；DReC 峰值为 batch 4 的10.87张/秒，
-DReCo 为 batch 4 的8.32张/秒。HayaiOCR 随 batch 增大稳定提升。整段吞吐补充反映 P50 隐藏的长尾影响。
+DReC/DReCo 从 batch 4 起出现明显 MPS 长尾。
 
 ### 使用
 
@@ -258,6 +251,15 @@ overlap here. Every public EM/CER result applies the same V2.1 function
 symmetrically to the ground truth and prediction unless a table is explicitly
 marked `raw`. Raw OCR output remains available.
 
+### Text length and latency
+
+![A10 CUDA fast-path latency versus normalized text length](assets/latency_vs_text_length_cuda_a10_fast_8000.png)
+
+The chart uses the same 8,000 warmed, batch-1 A10 measurements. DReC/DReCo use
+the release package's CUDA fast path. Normalized reference length provides one
+shared x-axis for all three OCR systems. Lines show P50 and bands extend to P90.
+DReC/DReCo add about 0.03 ms per character; BaberuOCR adds about 5.64 ms.
+
 ### NVIDIA A10: real-time text-crop batches
 
 Batch 1 uses the length-stratified 8,000-crop set; batches 2–16 use a fixed
@@ -266,13 +268,13 @@ decoded and resident. Timing includes packing/preprocessing, H2D, inference,
 D2H, and text decode. Loading and file I/O sit outside the timing boundary. P50
 is whole-batch latency.
 
-| Batch | DReC P50 / throughput | DReCo P50 / throughput | BaberuOCR P50 / throughput | HayaiOCR v2.1 P50 / throughput |
+| Batch | DReC P50 | DReCo P50 | BaberuOCR P50 | HayaiOCR v2.1 P50 |
 |---:|---:|---:|---:|---:|
-| 1 | **36.28 ms / 26.83/s** | 41.77 ms / 23.48/s | 77.05 ms / 11.46/s | — |
-| 2 | **35.58 ms / 54.12/s** | 40.32 ms / 47.88/s | 103.28 ms / 17.98/s | 110.94 ms / 16.74/s |
-| 4 | **36.80 ms / 102.70/s** | 42.81 ms / 88.90/s | 136.71 ms / 28.55/s | 144.85 ms / 26.40/s |
-| 8 | **53.36 ms / 146.63/s** | 57.72 ms / 135.11/s | 173.96 ms / 44.78/s | 191.90 ms / 39.94/s |
-| 16 | **85.89 ms / 181.72/s** | 92.77 ms / 167.95/s | 222.53 ms / 70.23/s | 259.84 ms / 60.35/s |
+| 1 | **36.28 ms** | 41.77 ms | 77.05 ms | — |
+| 2 | **35.58 ms** | 40.32 ms | 103.28 ms | 110.94 ms |
+| 4 | **36.80 ms** | 42.81 ms | 136.71 ms | 144.85 ms |
+| 8 | **53.36 ms** | 57.72 ms | 173.96 ms | 191.90 ms |
+| 16 | **85.89 ms** | 92.77 ms | 222.53 ms | 259.84 ms |
 
 The retained same-protocol HayaiOCR A10 series starts at batch 2.
 
@@ -281,32 +283,29 @@ The retained same-protocol HayaiOCR A10 series starts at batch 2.
 The same 5,120 crops are measured after 10 complete warmup batches. Batch size
 is increased until measured throughput reaches its peak.
 
-| Model | Peak batch | P50 | Amortized per image | Peak throughput |
-|---|---:|---:|---:|---:|
-| MangaDReC | 128 | **599.82 ms** | **4.611 ms** | **216.88/s** |
-| BaberuOCR | 256 | 1400.14 ms | 5.484 ms | 182.36/s |
-| HayaiOCR v2.1 | 512 | 3315.86 ms | 6.455 ms | 154.91/s |
-| MangaOCR | 32 | 499.09 ms | 17.122 ms | 58.40/s |
-| PaddleOCR-VL-For-Manga 0.9B | 256 | 7233.68 ms | 28.291 ms | 35.35/s |
+| Model | Peak batch | Peak throughput |
+|---|---:|---:|
+| MangaDReC | 128 | **216.88/s** |
+| BaberuOCR | 256 | 182.36/s |
+| HayaiOCR v2.1 | 512 | 154.91/s |
+| MangaOCR | 32 | 58.40/s |
+| PaddleOCR-VL-For-Manga 0.9B | 256 | 35.35/s |
 
 ### Apple M1 Pro MPS: real-time text-crop batches
 
 Every run uses the same 500 crops after 10 complete warmup batches, with the
 same timing boundary as above. HayaiOCR v2.1 uses its official PyTorch FP32
-greedy path. P50 is whole-batch latency; throughput covers all 500 crops.
+greedy path. P50 is whole-batch latency.
 
-| Batch | DReC P50 / throughput | DReCo P50 / throughput | HayaiOCR v2.1 P50 / throughput |
+| Batch | DReC P50 | DReCo P50 | HayaiOCR v2.1 P50 |
 |---:|---:|---:|---:|
-| 1 | 143.17 ms / 6.11/s | 161.00 ms / 5.32/s | **115.11 ms / 7.95/s** |
-| 2 | **181.17 ms / 9.25/s** | 198.07 ms / 8.12/s | 191.51 ms / **10.08/s** |
-| 4 | **237.15 ms / 10.87/s** | 284.09 ms / 8.32/s | 302.76 ms / **12.90/s** |
-| 8 | **395.79 ms** / 10.03/s | 440.94 ms / 7.28/s | 518.20 ms / **15.08/s** |
-| 16 | **534.74 ms** / 10.03/s | 1002.71 ms / 5.11/s | 949.07 ms / **16.76/s** |
+| 1 | 143.17 ms | 161.00 ms | **115.11 ms** |
+| 2 | **181.17 ms** | 198.07 ms | 191.51 ms |
+| 4 | **237.15 ms** | 284.09 ms | 302.76 ms |
+| 8 | **395.79 ms** | 440.94 ms | 518.20 ms |
+| 16 | **534.74 ms** | 1002.71 ms | 949.07 ms |
 
-DReC and DReCo develop large MPS tails from batch 4 upward. DReC peaks at 10.87
-images/s at batch 4, while DReCo peaks at 8.32 images/s at batch 4. HayaiOCR
-continues to scale with batch size. Full-run throughput captures the tails hidden
-by P50.
+DReC and DReCo develop large MPS tails from batch 4 upward.
 
 ### Usage
 
