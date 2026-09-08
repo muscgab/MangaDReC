@@ -4,3 +4,4 @@ Pillow
 PyYAML
 regex
 ninja
+safetensors>=0.4

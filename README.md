@@ -16,10 +16,10 @@ MangaDReC/DReCo 面向实时漫画识别：页面到达后，上游提取 text c
 
 ### 版本
 
-| 模型 | 输出 | 参数量 | checkpoint |
+| 模型 | 输出 | 参数量 | safetensors |
 |---|---|---:|---:|
-| [MangaDReC](https://modelscope.cn/models/muscgab/MangaDReC-v1) | CTC greedy | 34.5M | 146.7 MB |
-| [MangaDReCo](https://modelscope.cn/models/muscgab/MangaDReCo-v1-Synthetic) | CTC + 受限 NAR 纠错 | 48.1M | 201.2 MB |
+| [MangaDReC](https://modelscope.cn/models/muscgab/MangaDReC-v1) | CTC greedy | 34.5M | 146.1 MB |
+| [MangaDReCo](https://modelscope.cn/models/muscgab/MangaDReCo-v1-Synthetic) | CTC + 受限 NAR 纠错 | 48.1M | 200.6 MB |
 
 DReCo 的 B 是 13.6M 双向 Transformer，编辑范围固定为同一 CTC cell 的 top-16
 非标点替换。
@@ -42,6 +42,12 @@ text crop
 
 核心张量路径运行在 MPS/CUDA。Python 接口只在最终 `decode()` 时把 token ID 转成
 字符串。NAR 避免逐 token 解码；总耗时仍受 crop 数、DET 框数和 REC 宽度影响。
+
+### 设备后端
+
+两个后端共用同一份 `safetensors` 权重和上层 pipeline。CUDA 使用自定义 CUDA
+CCL/DB 解码扩展，并在不采用扩框结果时跳过该分支；MPS 使用 Metal shader 完成
+CCL/DB 解码、扩框和阅读顺序。DET、REC 和 B 的网络结构与参数在两个后端一致。
 
 ### 训练
 
@@ -164,7 +170,8 @@ print(ocr.decode(ocr.forward_gpu(images, sizes))[0])
 
 - 输入应是 text crop；任意无文字截图需要外部 text-presence gate。
 - v1 面向常规主体文字；艺术字、强弯曲文字、logo和极小字留给后续版本。
-- checkpoint 采用 PyTorch package；TorchScript/ONNX 导出留给后续版本。
+- 权重采用 `safetensors`，模型图由随包 JSON/YAML 配置重建；TorchScript/ONNX
+  导出留给后续版本。
 
 ### 许可证
 
@@ -189,10 +196,10 @@ cross-platform target, v1 is a failed experiment.
 
 ### Variants
 
-| Model | Output | Parameters | Checkpoint |
+| Model | Output | Parameters | Safetensors |
 |---|---|---:|---:|
-| [MangaDReC](https://modelscope.cn/models/muscgab/MangaDReC-v1) | Greedy CTC | 34.5M | 146.7 MB |
-| [MangaDReCo](https://modelscope.cn/models/muscgab/MangaDReCo-v1-Synthetic) | CTC + constrained NAR correction | 48.1M | 201.2 MB |
+| [MangaDReC](https://modelscope.cn/models/muscgab/MangaDReC-v1) | Greedy CTC | 34.5M | 146.1 MB |
+| [MangaDReCo](https://modelscope.cn/models/muscgab/MangaDReCo-v1-Synthetic) | CTC + constrained NAR correction | 48.1M | 200.6 MB |
 
 DReCo adds a 13.6M bidirectional Transformer B. Its edit space contains only
 non-punctuation replacements from the same CTC cell's top-16 candidates.
@@ -217,6 +224,14 @@ text crop
 Core tensors remain on MPS/CUDA. `decode()` copies final token IDs to construct
 strings. NAR removes token-by-token decoding; crop count, DET boxes, and REC
 width still affect runtime.
+
+### Device backends
+
+Both backends share one `safetensors` checkpoint and the same high-level
+pipeline. CUDA uses a custom CUDA CCL/DB decoder and skips expansion when its
+result is not selected. MPS uses Metal shaders for CCL/DB decoding, expansion,
+and reading order. DET, REC, and B have identical architecture and parameters
+on both backends.
 
 ### Training
 
@@ -348,7 +363,8 @@ Batch input is padded `uint8 BGR [B,3,H,W]`; `sizes` stores each original `(H,W)
   text-presence gate.
 - v1 targets regular body text; stylized lettering, strongly curved text, logos,
   and tiny text remain for later versions.
-- Checkpoints use a PyTorch package; TorchScript/ONNX exports remain future work.
+- Weights use `safetensors`; the module graph is rebuilt from bundled JSON/YAML
+  configuration. TorchScript/ONNX export remains future work.
 
 ### License
 
